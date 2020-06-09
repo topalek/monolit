@@ -1,0 +1,137 @@
+
+.cards-wrap {
+	justify-content: space-between;
+}
+[class*="card-l"] {
+	margin-bottom: 4px;
+	height: 210px;
+	position: relative;
+	background-color: transparent;
+	color: #fff;
+}
+[class*="card-l"] .card-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.card-l-50,
+.card-l-100 {
+	width: 100%;
+}
+@media(min-width:768px) {
+	.card-l-50 {
+		width: calc(50% - 2px);
+	}
+	.card-l-100 {
+		width: 100%;
+	}
+}
+[class*="card-l"] .card-bg>img {
+	transition: transform 0.2s ease-in-out;
+	min-width: 100%;
+}
+[class*="card-l"]:hover .card-bg>img {
+	transform: scale(1.05);
+	transform-origin: 50% 50%;
+}
+.card-bg {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: -1;
+	overflow: hidden;
+}
+/*.card-bg:after {*/
+	/*content: '';*/
+	/*position: absolute;*/
+	/*top: 0;*/
+	/*bottom: 0;*/
+	/*left: 0;*/
+	/*right: 0;*/
+	/*background-color: rgba(0, 0, 0, .5);*/
+/*}*/
+a.card-title {
+	font-size: 2rem;
+	color: #fff;
+	font-weight: 500;
+}
+.card-price {
+	font-family: "Lato", sans-serif;
+	font-weight: bold;
+}
+.card-text {
+	font-family: "Lato", sans-serif;
+}
+.card-adress {
+	display: block;
+	margin-bottom: 5px;
+}
+a.card {
+	color: #000;
+	text-decoration: none;
+	overflow: hidden;
+	height: 100%;
+	box-shadow: 0px 13px 10px -10px #eee;
+}
+a.card:hover {
+	color: #f00;
+}
+a.card .card-body {
+	z-index: 1;
+	background-color: #fff;
+}
+a.card .card-img-top{
+	transition: transform 0.2s ease-in-out;
+}
+a.card:hover .card-img-top{
+	transform: scale(1.05);
+}
+.searched-th {
+	color: #000;
+	font-size: 13px;
+}
+.searched-th:hover {
+	color: #000;
+}
+.searched-th .material-icons {
+	font-size: 20px;
+}
+.searched-th.active {
+	color: #ff4444;
+}
+.searched-th+.searched-th {
+	margin-left: 20px;
+}
+.btn-print {
+	color: #000;
+	font-size: 13px;
+	display: none;
+}
+.btn-print:hover {
+	color: #000;
+}
+.btn-print .material-icons {
+	font-size: 20px;
+}
+.results-by {
+	font-size: 1.2rem;
+}
+.card-small-text a+a {
+	margin-left: 30px;
+}
+.small-spaces {
+	margin-right: -5px;
+	margin-left: -5px;
+}
+.small-spaces [class^="col"] {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+@media(min-width: 992px) {
+	.btn-print {
+		display: initial;
+	}
+}

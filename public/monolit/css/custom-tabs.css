@@ -1,0 +1,22 @@
+.best-offer-pill:hover {
+	color: #000;
+}
+.best-offer-pill {
+	font-family: "Lato", sans-serif;
+	color: #000;
+	line-height: 28px;
+	font-size: 1.2rem;
+	width: 130px;
+	border: 1px solid #e5e5e5;
+	text-align: center;
+}
+
+.nav-pills .nav-link.best-offer-pill.active,
+.nav-pills .show>.nav-link.best-offer-pill {
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+	background-color: #f00;
+}
+.nav-item+.nav-item {
+	margin-left: -1px;
+}

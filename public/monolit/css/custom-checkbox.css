@@ -1,0 +1,35 @@
+.c-chbox {
+	opacity: 0;
+}
+.c-chbox ~ label:before {
+	content: '';
+	position: absolute;
+	top: 4;
+	left: 0;
+	height: 17px;
+	width: 17px;
+	background-color: #eee;
+}
+.c-chbox ~ label {
+	padding-left: 5px;
+}
+
+.c-chbox:checked ~ label:after {
+	opacity: 1;
+}
+
+label:after {
+	content: "";
+	position: absolute;
+	opacity: 0;
+	left: 5px;
+	top: 6px;
+	width: 8px;
+	height: 12px;
+	border: solid #f05030;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	transition: opacity 0.2s ease-in-out;
+}

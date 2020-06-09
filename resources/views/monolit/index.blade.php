@@ -1,0 +1,1 @@
+@extends('monolit.layouts.app')
