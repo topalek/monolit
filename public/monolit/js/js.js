@@ -6,7 +6,7 @@ $('#advancedBtn').click(function (e) {
 		duration: 200,
 		start: function () {
 			$(this).css({
-				display: "flex"
+				display: "grid"
 			})
 		},
 		done: function() {
@@ -293,3 +293,7 @@ function definePopupClass() {
 			});
 	};
 }
+
+// $(document).ready(function() {
+// 	$('#city').select2();
+// });

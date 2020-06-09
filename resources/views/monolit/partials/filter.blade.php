@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="filter-a">
                 <div class="form-group">
-                    <select class="form-control" name="city">
+                    <select class="form-control" name="city" id="city">
                         <option value="">-Город-</option>
                         @foreach($cities as $city)
                             <option value="{{$city}}">{{$city}}</option>
@@ -55,29 +55,30 @@
 
         </div>
     </div>
-    <div id="advancedFields" class="row">
-        <div class="col-12 d-flex justify-content-center flex-wrap mb-4">
-            <div class="form-input-wrap space">
-                <select class="search-field" name="total_floor_space" id="space">
-                    <option value="">-Общая площадь-</option>
-                </select>
-            </div>
-            <div class="form-input-wrap district">
-                <select class="search-field" name="district" id="district">
-                    <option value="">-Район-</option>
-                </select>
-            </div>
-            <div class="form-input-wrap street">
-                <select class="search-field" name="street" id="street">
-                    <option value="">-Улица-</option>
-                </select>
-            </div>
-            <div class="form-input-wrap street">
-
-                {{--                <input type="text" name="district" class="search-field b-left" @if(request()->input('district')) value="{{ request()->input('district') }}" @endif placeholder="Район">--}}
-                {{--                <input type="text" name="street" class="search-field b-left" @if(request()->input('street')) value="{{ request()->input('street') }}" @endif placeholder="Улица">--}}
-            </div>
+    <div id="advancedFields">
+        <div class="form-group space">
+            <select class="form-control" name="total_floor_space" id="space">
+                <option value="">-Общая площадь-</option>
+            </select>
         </div>
+        <div class="form-group district">
+            <select class="form-control" name="district" id="district">
+                <option value="">-Район-</option>
+            </select>
+        </div>
+        <div class="form-group street">
+            <select class="form-control" name="street" id="street">
+                <option value="">-Улица-</option>
+            </select>
+        </div>
+        {{--        <div class="col-12 d-flex justify-content-center flex-wrap mb-4">--}}
+
+        {{--            <div class="form-input-wrap street">--}}
+
+        {{--                <input type="text" name="district" class="search-field b-left" @if(request()->input('district')) value="{{ request()->input('district') }}" @endif placeholder="Район">--}}
+        {{--                <input type="text" name="street" class="search-field b-left" @if(request()->input('street')) value="{{ request()->input('street') }}" @endif placeholder="Улица">--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
 
         <div class="col-auto ml-auto">
             <div class="form-inline text-white ext-floor">

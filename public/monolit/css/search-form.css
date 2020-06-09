@@ -10,10 +10,15 @@
 .filter-a {
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
-	grid-column-gap: 2px;
+	grid-column-gap: 5px;
 }
 
-.filter-a .form-group .form-control {;
+.filter-a .form-group {;
+	margin-bottom: 5px;
+}
+
+#advancedFields .form-group .form-control,
+.filter-a .form-group .form-control {
 	border-radius: 0;
 	padding: 13px;
 	height: auto;
@@ -23,6 +28,10 @@ select.form-control:not([size]):not([multiple]) {
 	height: auto;
 }
 
+#advancedFields {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
 @media (min-width: 576px) {
 	.carousel {
 		height: 560px;

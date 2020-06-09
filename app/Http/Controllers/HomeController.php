@@ -24,7 +24,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $cities = DB::table('ivn_objects')->()->pluck('city');
+        $cities = DB::table('ivn_objects')->distinct()->pluck('city');
         foreach ($cities as $i => $city) {
             if ($city === '...') {
                 unset($cities[$i]);
