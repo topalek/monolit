@@ -10,6 +10,7 @@ use App\Presentation;
 use App\Realty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
@@ -21,13 +22,24 @@ class HomeController extends Controller
         $this->apartments = $apartments;
     }
 
-    public function index() {
-        return view('monolit.pages.main', [
-            'article'   => $this->getApartments(),
-            'houses'    => $this->getHouses(),
-            'advantage' => HomeText::first(),
-            'block'     => Blocks::first(),
-        ]);
+    public function index()
+    {
+        $cities = DB::table('ivn_objects')->()->pluck('city');
+        foreach ($cities as $i => $city) {
+            if ($city === '...') {
+                unset($cities[$i]);
+            }
+        }
+        return view(
+            'monolit.pages.main',
+            [
+                'article'   => $this->getApartments(),
+                'houses'    => $this->getHouses(),
+                'advantage' => HomeText::first(),
+                'block'     => Blocks::first(),
+                'cities'    => $cities
+            ]
+        );
     }
 
     public function viewObject(Request $request, $object) {

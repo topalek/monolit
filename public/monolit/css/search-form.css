@@ -2,18 +2,38 @@
 	height: 630px;
 	transition: height 0.2s linear;
 }
+
 .carousel.expand {
 	height: 820px;
 }
-@media(min-width: 576px) {
+
+.filter-a {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-column-gap: 2px;
+}
+
+.filter-a .form-group .form-control {;
+	border-radius: 0;
+	padding: 13px;
+	height: auto;
+}
+
+select.form-control:not([size]):not([multiple]) {
+	height: auto;
+}
+
+@media (min-width: 576px) {
 	.carousel {
 		height: 560px;
 	}
+
 	.carousel.expand {
 		height: 710px;
 	}
 }
-@media(min-width: 768px) {
+
+@media (min-width: 768px) {
 	.carousel {
 		height: 490px;
 	}
