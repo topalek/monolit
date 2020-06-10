@@ -294,6 +294,8 @@ function definePopupClass() {
 	};
 }
 
-// $(document).ready(function() {
-// 	$('#city').select2();
-// });
+$(document).ready(function () {
+	$('#search select.form-control').each((i, el) => {
+		$(el).select2();
+	});
+});

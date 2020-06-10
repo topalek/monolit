@@ -25,19 +25,39 @@ class HomeController extends Controller
     public function index()
     {
         $cities = DB::table('ivn_objects')->distinct()->pluck('city');
-        foreach ($cities as $i => $city) {
-            if ($city === '...') {
-                unset($cities[$i]);
-            }
-        }
+        $types = DB::table('ivn_objects')->distinct()->pluck('estate_type');
+        $areas = DB::table('ivn_objects')->distinct()->pluck('total_floor_space');
+        $districts = DB::table('ivn_objects')->distinct()->pluck('district');
+        $streets = DB::table('ivn_objects')->distinct()->pluck('street');
+
+        $filterData = [
+            'cities'    => $cities->sort()->filter(
+                function ($value, $key) {
+                    return $value !== "...";
+                }
+            ),
+            'types'     => $types->sort(),
+            'areas'     => $areas->sort()->filter(),
+            'districts' => $districts->sort()->filter(
+                function ($value, $key) {
+                    return $value !== "...";
+                }
+            ),
+            'streets'   => $streets->sort()->filter(
+                function ($value, $key) {
+                    return $value !== "...";
+                }
+            ),
+        ];
+
         return view(
             'monolit.pages.main',
             [
-                'article'   => $this->getApartments(),
-                'houses'    => $this->getHouses(),
-                'advantage' => HomeText::first(),
-                'block'     => Blocks::first(),
-                'cities'    => $cities
+                'article'    => $this->getApartments(),
+                'houses'     => $this->getHouses(),
+                'advantage'  => HomeText::first(),
+                'block'      => Blocks::first(),
+                'filterData' => $filterData
             ]
         );
     }
