@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Apartments;
 use App\Blocks;
 use App\Company;
+use App\FilterApartments;
 use App\HomeText;
 use App\Presentation;
 use App\Realty;
@@ -24,31 +25,6 @@ class HomeController extends Controller
 
     public function index()
     {
-        $cities = DB::table('ivn_objects')->distinct()->pluck('city');
-        $types = DB::table('ivn_objects')->distinct()->pluck('estate_type');
-        $areas = DB::table('ivn_objects')->distinct()->pluck('total_floor_space');
-        $districts = DB::table('ivn_objects')->distinct()->pluck('district');
-        $streets = DB::table('ivn_objects')->distinct()->pluck('street');
-
-        $filterData = [
-            'cities'    => $cities->sort()->filter(
-                function ($value, $key) {
-                    return $value !== "...";
-                }
-            ),
-            'types'     => $types->sort(),
-            'areas'     => $areas->sort()->filter(),
-            'districts' => $districts->sort()->filter(
-                function ($value, $key) {
-                    return $value !== "...";
-                }
-            ),
-            'streets'   => $streets->sort()->filter(
-                function ($value, $key) {
-                    return $value !== "..." && $value !== ",,,";
-                }
-            ),
-        ];
 
         return view(
             'monolit.pages.main',
@@ -57,7 +33,7 @@ class HomeController extends Controller
                 'houses'     => $this->getHouses(),
                 'advantage'  => HomeText::first(),
                 'block'      => Blocks::first(),
-                'filterData' => $filterData,
+                'filterData' => $this->getFilterData(),
             ]
         );
     }
@@ -334,22 +310,15 @@ class HomeController extends Controller
 
     public function filter(Request $request)
     {
-        $apartments = Apartments::filter($request->all())->orderBy('price')->paginate(12);
+        $apartments = Apartments::query();
 
-        foreach ($apartments as $place) {
-            for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
-                if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
-                    $place['photo'] = (is_null(
-                        $place->getAttributesObject[$i]['item']
-                    )) ? null : 'https://monolit.sale/web_i/img/' . $place->getAttributesObject[$i]['item'];
-                }
-            }
-        }
+        $apartments = (new FilterApartments($apartments, $request))->apply()->paginate(12);
 
         return view(
             'monolit.pages.filter',
             [
-                'offers' => $apartments,
+                'offers'     => $apartments,
+                'filterData' => $this->getFilterData(),
             ]
         );
     }
@@ -394,5 +363,34 @@ class HomeController extends Controller
                 'text'    => HomeText::findOrFail(2),
             ]
         );
+    }
+
+    public function getFilterData()
+    {
+        $cities = DB::table('ivn_objects')->distinct()->pluck('city');
+        $types = DB::table('ivn_objects')->distinct()->pluck('estate_type');
+        $areas = DB::table('ivn_objects')->distinct()->pluck('total_floor_space');
+        $districts = DB::table('ivn_objects')->distinct()->pluck('district');
+        $streets = DB::table('ivn_objects')->distinct()->pluck('street');
+
+        return [
+            'cities'    => $cities->sort()->filter(
+                function ($value, $key) {
+                    return $value !== "...";
+                }
+            ),
+            'types'     => $types->sort(),
+            'areas'     => $areas->sort()->filter(),
+            'districts' => $districts->sort()->filter(
+                function ($value, $key) {
+                    return $value !== "...";
+                }
+            ),
+            'streets'   => $streets->sort()->filter(
+                function ($value, $key) {
+                    return $value !== "..." && $value !== ",,,";
+                }
+            ),
+        ];
     }
 }

@@ -158,16 +158,16 @@
 <script src="{{ asset('monolit/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('monolit/js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('monolit/js/jquery.scrollUp.js') }}"></script>
-<script src="{{ asset('monolit/js/js.js') }}"></script>
+<script src="{{ asset('monolit/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/sweetalert2.all.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="{{ asset('monolit/js/js.js') }}"></script>
 
 @stack('js')
 <script>
-    $(document).ready(function() {
-        if($('#category option:selected').val() == 1) {
-            $("#type option[value='Дом']").attr('disabled','disabled');
-            $("#type option[value='Земельный участок']").attr('disabled','disabled');
+    $(document).ready(function () {
+        if ($('#category option:selected').val() == 1) {
+            $("#type option[value='Дом']").attr('disabled', 'disabled');
+            $("#type option[value='Земельный участок']").attr('disabled', 'disabled');
             $('.other').hide();
             $('.arenda').show();
             $(".arenda").removeAttr('disabled','disabled');

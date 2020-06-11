@@ -7,7 +7,7 @@
                 <div class="col">
                     <h1 class="main-slogan" style="text-transform: uppercase">Агентство по продаже и аренде недвижимости</h1>
                     <div class="search-bg">
-                        @include('monolit.partials.filter',['cities'=> $cities])
+                        @include('monolit.partials.filter',['filterData'=> $filterData])
                     </div>
                 </div>
             </div>

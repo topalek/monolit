@@ -1,4 +1,4 @@
-<form id="search" class="">
+<form id="search" class="" action="{{url('filter')}}">
     <div class="row">
         <div class="col-12">
             <div class="filter-a">
@@ -19,7 +19,7 @@
                 {{--                    </select>--}}
                 {{--                </div>--}}
                 <div class="form-group">
-                    <select class="form-control size" name="estate_type" id="type" data-tags="true"
+                    <select class="form-control size" name="type" id="type" data-tags="true"
                             data-placeholder="-Тип недвижимости-" data-allow-clear="true">
                         <option></option>
                         @foreach($filterData['types'] as $type)
@@ -40,7 +40,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control room_quantity" name="room_quantity" data-tags="true"
+                    <select class="form-control room_quantity" name="rooms" data-tags="true"
                             data-placeholder="-Комнаты-" data-allow-clear="true">
                         <option></option>
                         <option value="1" {{ request()->input('room_quantity') == 1 ? 'selected' : '' }}>1</option>
@@ -63,7 +63,7 @@
     </div>
     <div id="advancedFields">
         <div class="form-group space">
-            <select class="form-control" name="total_floor_space" id="space" data-tags="true"
+            <select class="form-control" name="area" id="space" data-tags="true"
                     data-placeholder="-Общая площадь-" data-allow-clear="true">
                 <option></option>
                 @foreach($filterData['areas'] as $area)
@@ -102,13 +102,14 @@
             <div class="form-inline text-white ext-floor">
                 Этаж:
                 <div class="form-check">
-                    <input id="notFirst" name="floor" value="1" type="checkbox" @if(request()->has('floor')) checked
+                    <input id="notFirst" name="notFirst" value="1" type="checkbox"
+                           @if(request()->has('notFirst')) checked
                            @endif class="form-check-input c-chbox">
                     <label class="form-check-label" for="notFirst">Не первый</label>
                 </div>
                 <div class="form-check">
-                    <input id="notLast" name="number_of_storeys" value="1" type="checkbox"
-                           @if(request()->has('number_of_storeys')) checked @endif class="form-check-input c-chbox">
+                    <input id="notLast" name="notLast" type="checkbox"
+                           @if(request()->has('notLast')) checked @endif class="form-check-input c-chbox">
                     <label class="form-check-label" for="notLast">Не последний</label>
                 </div>
             </div>
