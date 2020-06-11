@@ -45,7 +45,7 @@ class HomeController extends Controller
             ),
             'streets'   => $streets->sort()->filter(
                 function ($value, $key) {
-                    return $value !== "...";
+                    return $value !== "..." || $value !== ",,,";
                 }
             ),
         ];
