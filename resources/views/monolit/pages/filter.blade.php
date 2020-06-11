@@ -72,7 +72,7 @@
                     </div>
                 </a>
             @endforeach
-            <!--//-->
+        <!--//-->
         </div>
         <div class="row">
             <div class="col d-flex justify-content-center">
@@ -82,18 +82,18 @@
     </div>
 @endsection
 @push('js')
-<script src="{{ asset('monolit/js/jquery.min.js') }}"></script>
-<script src="{{ asset('monolit/js/print.js') }}"></script>
-<script>
-//    location.hash = '#view';
-    {{--function district(data) {--}}
+    {{--<script src="{{ asset('monolit/js/jquery.min.js') }}"></script>--}}
+    {{--<script src="{{ asset('monolit/js/print.js') }}"></script>--}}
+    <script>
+        //    location.hash = '#view';
+        {{--function district(data) {--}}
         {{--$.ajax({--}}
-            {{--type: 'GET',--}}
-            {{--url: '{{ url('/district') }}/'+data.value,--}}
-            {{--success: function (data) {--}}
-                {{--console.log(data.data)--}}
-            {{--},--}}
-            {{--error: function (data) {--}}
+        {{--type: 'GET',--}}
+        {{--url: '{{ url('/district') }}/'+data.value,--}}
+        {{--success: function (data) {--}}
+        {{--console.log(data.data)--}}
+        {{--},--}}
+        {{--error: function (data) {--}}
 
             {{--}--}}
         {{--});--}}
