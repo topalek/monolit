@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="{{ asset('monolit/css/custom-checkbox.css') }}">
     <link rel="stylesheet" href="{{ asset('monolit/css/search-form.css') }}">
     <link rel="stylesheet" href="{{ asset('monolit/css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('monolit/css/object.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('monolit/css/object.css') }}">
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
             w[l] = w[l] || [];
