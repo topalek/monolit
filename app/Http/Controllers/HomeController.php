@@ -57,17 +57,62 @@ class HomeController extends Controller
                 'houses'     => $this->getHouses(),
                 'advantage'  => HomeText::first(),
                 'block'      => Blocks::first(),
-                'filterData' => $filterData
+                'filterData' => $filterData,
             ]
         );
     }
 
-    public function viewObject(Request $request, $object) {
+    private function getApartments()
+    {
+        $places = $this->apartments
+            ->where('estate_type', 'Квартира')
+            ->inRandomOrder()
+            ->with('getAttributesObject')
+            ->take(3)
+            ->get();
+
+        foreach ($places as $place) {
+            for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
+                if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
+                    $place['photo'] = (is_null(
+                        $place->getAttributesObject[$i]['item']
+                    )) ? null : 'https://monolit.sale/web_i/img/' . $place->getAttributesObject[$i]['item'];
+                }
+            }
+        }
+
+        return $places;
+    }
+
+    private function getHouses()
+    {
+        $places = $this->apartments
+            ->where('estate_type', 'Дом')
+            ->inRandomOrder()
+            ->with('getAttributesObject')
+            ->take(3)
+            ->get();
+
+        foreach ($places as $place) {
+            for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
+                if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
+                    $place['photo'] = (is_null(
+                        $place->getAttributesObject[$i]['item']
+                    )) ? null : 'https://monolit.sale/web_i/img/' . $place->getAttributesObject[$i]['item'];
+                }
+            }
+        }
+
+        return $places;
+    }
+
+    public function viewObject(Request $request, $object)
+    {
         $object = $this->apartments
             ->where('object_code', $object)
             ->with('getAttributesObject')->first();
 
-        if(!$object) {
+        if (!$object) {
             abort(404);
         }
 
@@ -84,27 +129,71 @@ class HomeController extends Controller
         }
 
 
-
-        $view = View::make('monolit.pages.object', [
-            'object' => $object,
-            'similar' => $this->similarOffers($object),
-            'title' =>  $object->sale == 1 ? 'Аренда ' : 'Продажа ' .$object->estate_type.' '.$object->room_quantity.' - комн.'.' '.$object->street.' '.$object->house_no .' г. '. $object->city. ', ' .$object->district. ', Монолит агенство недвижимости.',
-            'urls' => [
-                is_null($object->next()) ? null : route('view.object', ['link' => $object->next()->object_code]),
-                is_null($object->previous()) ? null : route('view.object', ['link' => $object->previous()->object_code]),
+        $view = View::make(
+            'monolit.pages.object',
+            [
+                'object'  => $object,
+                'similar' => $this->similarOffers($object),
+                'title'   => $object->sale == 1 ? 'Аренда ' : 'Продажа ' . $object->estate_type . ' ' . $object->room_quantity . ' - комн.' . ' ' . $object->street . ' ' . $object->house_no . ' г. ' . $object->city . ', ' . $object->district . ', Монолит агенство недвижимости.',
+                'urls'    => [
+                    is_null($object->next()) ? null : route('view.object', ['link' => $object->next()->object_code]),
+                    is_null($object->previous()) ? null : route(
+                        'view.object',
+                        ['link' => $object->previous()->object_code]
+                    ),
+                ],
             ]
-        ]);
+        );
 
         return Response::make($view);
     }
 
-    public function ajax(Request $request) {
+    private function sessionGetViews($ip, $id)
+    {
+        if (session()->has('views')) {
+            if (!in_array($ip . ':' . $id, session('views'))) {
+                session()->push('views', $ip . ':' . $id);
+                return false;
+            }
+            return true;
+        } else {
+            session()->push('views', $ip . ':' . $id);
+            return false;
+        }
+    }
+
+    private function similarOffers($object)
+    {
+        $places = $this->apartments->whereBetween('price', [$object->price - 3000, $object->price + 3000])
+            ->where('id', '!=', $object->id)
+            ->inRandomOrder()
+            ->with('getAttributesObject')
+            ->take(3)
+            ->get();
+
+        foreach ($places as $place) {
+            for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
+                if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
+                    $place['photo'] = (is_null(
+                        $place->getAttributesObject[$i]['item']
+                    )) ? null : 'https://monolit.sale/web_i/img/' . $place->getAttributesObject[$i]['item'];
+                }
+            }
+        }
+        return $places;
+    }
+
+    public function ajax(Request $request)
+    {
         if (!$request->ajax()) {
             return response()
-                ->json([
-                    'status'    => 403,
-                    'message'   => 'Forbidden'
-                ], 403);
+                ->json(
+                    [
+                        'status'  => 403,
+                        'message' => 'Forbidden',
+                    ],
+                    403
+                );
         }
 
         $places = null;
@@ -120,66 +209,37 @@ class HomeController extends Controller
 
         if ($places === null) {
             return response()
-                ->json([
-                    'status'    => 404,
-                    'message'   => 'Places not found'
-                ], 404);
+                ->json(
+                    [
+                        'status'  => 404,
+                        'message' => 'Places not found',
+                    ],
+                    404
+                );
         }
 
         foreach ($places as $place) {
             for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
                 if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
-                    $place['photo'] = (is_null($place->getAttributesObject[$i]['item'])) ? null : 'https://monolit.sale/web_i/img/'.$place->getAttributesObject[$i]['item'];
+                    $place['photo'] = (is_null(
+                        $place->getAttributesObject[$i]['item']
+                    )) ? null : 'https://monolit.sale/web_i/img/' . $place->getAttributesObject[$i]['item'];
                 }
             }
         }
 
         return response()
-            ->json([
-                'status'    => 200,
-                'data'      => $places
-            ], 200);
+            ->json(
+                [
+                    'status' => 200,
+                    'data'   => $places,
+                ],
+                200
+            );
     }
 
-    private function getApartments() {
-        $places = $this->apartments
-            ->where('estate_type', 'Квартира')
-            ->inRandomOrder()
-            ->with('getAttributesObject')
-            ->take(3)
-            ->get();
-
-        foreach ($places as $place) {
-            for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
-                if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
-                    $place['photo'] = (is_null($place->getAttributesObject[$i]['item'])) ? null : 'https://monolit.sale/web_i/img/'.$place->getAttributesObject[$i]['item'];
-                }
-            }
-        }
-
-        return $places;
-    }
-
-    private function getHouses() {
-        $places = $this->apartments
-            ->where('estate_type', 'Дом')
-            ->inRandomOrder()
-            ->with('getAttributesObject')
-            ->take(3)
-            ->get();
-
-        foreach ($places as $place) {
-            for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
-                if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
-                    $place['photo'] = (is_null($place->getAttributesObject[$i]['item'])) ? null : 'https://monolit.sale/web_i/img/'.$place->getAttributesObject[$i]['item'];
-                }
-            }
-        }
-
-        return $places;
-    }
-
-    public function viewAllOffers($category) {
+    public function viewAllOffers($category)
+    {
         $places = null;
         switch ($category) {
             case 'apartments':
@@ -201,7 +261,7 @@ class HomeController extends Controller
                 abort(404);
                 break;
         }
-        
+
         if (is_null($places)) {
             abort(404);
         }
@@ -209,61 +269,39 @@ class HomeController extends Controller
         foreach ($places as $place) {
             for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
                 if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
-                    $place['photo'] = (is_null($place->getAttributesObject[$i]['item'])) ? null : 'https://monolit.sale/web_i/img/'.$place->getAttributesObject[$i]['item'];
+                    $place['photo'] = (is_null(
+                        $place->getAttributesObject[$i]['item']
+                    )) ? null : 'https://monolit.sale/web_i/img/' . $place->getAttributesObject[$i]['item'];
                 }
             }
         }
 
-        return view('monolit.pages.offers', [
-            'offers' => $places
-        ]);
-    }
-
-    private function similarOffers($object) {
-        $places = $this->apartments->whereBetween('price', [$object->price - 3000, $object->price + 3000])
-            ->where('id', '!=', $object->id)
-            ->inRandomOrder()
-            ->with('getAttributesObject')
-            ->take(3)
-            ->get();
-
-        foreach ($places as $place) {
-            for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
-                if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
-                    $place['photo'] = (is_null($place->getAttributesObject[$i]['item'])) ? null : 'https://monolit.sale/web_i/img/'.$place->getAttributesObject[$i]['item'];
-                }
-            }
-        }
-        return $places;
-    }
-
-    private function sessionGetViews($ip, $id) {
-        if (session()->has('views')) {
-            if (!in_array($ip.':'.$id, session('views'))) {
-                session()->push('views', $ip.':'.$id);
-                return false;
-            }
-            return true;
-        } else {
-            session()->push('views', $ip.':'.$id);
-            return false;
-        }
+        return view(
+            'monolit.pages.offers',
+            [
+                'offers' => $places,
+            ]
+        );
     }
 
     public function company()
     {
-        return view('monolit.pages.company', [
-            'company' =>  Company::first()['text'],
-        ]);
-
+        return view(
+            'monolit.pages.company',
+            [
+                'company' => Company::first()['text'],
+            ]
+        );
     }
 
     public function presentation()
     {
-        return view('monolit.pages.presentation', [
-            'presentation' =>  Presentation::first()['text'],
-        ]);
-
+        return view(
+            'monolit.pages.presentation',
+            [
+                'presentation' => Presentation::first()['text'],
+            ]
+        );
     }
 
     public function saveView($view)
@@ -271,9 +309,12 @@ class HomeController extends Controller
         session()->put('view', $view);
 
         return response()
-            ->json([
-                'status' => 200,
-            ], 200);
+            ->json(
+                [
+                    'status' => 200,
+                ],
+                200
+            );
     }
 
 
@@ -282,10 +323,13 @@ class HomeController extends Controller
         $district = Apartments::where('city', $city)->get()->groupBy('district')->toArray();
 
         return response()
-            ->json([
-                'data'   => array_keys($district),
-                'status' => 200,
-            ], 200);
+            ->json(
+                [
+                    'data'   => array_keys($district),
+                    'status' => 200,
+                ],
+                200
+            );
     }
 
     public function filter(Request $request)
@@ -295,14 +339,19 @@ class HomeController extends Controller
         foreach ($apartments as $place) {
             for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
                 if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
-                    $place['photo'] = (is_null($place->getAttributesObject[$i]['item'])) ? null : 'https://monolit.sale/web_i/img/'.$place->getAttributesObject[$i]['item'];
+                    $place['photo'] = (is_null(
+                        $place->getAttributesObject[$i]['item']
+                    )) ? null : 'https://monolit.sale/web_i/img/' . $place->getAttributesObject[$i]['item'];
                 }
             }
         }
 
-        return view('monolit.pages.filter', [
-            'offers' => $apartments
-        ]);
+        return view(
+            'monolit.pages.filter',
+            [
+                'offers' => $apartments,
+            ]
+        );
     }
 
     public function recently()
@@ -315,7 +364,9 @@ class HomeController extends Controller
             foreach ($places as $place) {
                 for ($i = 0; $i < $place->getAttributesObject->count(); $i++) {
                     if ($place->getAttributesObject[$i]['p_tag'] === 'pic') {
-                        $place['photo'] = (is_null($place->getAttributesObject[$i]['item'])) ? null : 'https://monolit.sale/web_i/img/'.$place->getAttributesObject[$i]['item'];
+                        $place['photo'] = (is_null(
+                            $place->getAttributesObject[$i]['item']
+                        )) ? null : 'https://monolit.sale/web_i/img/' . $place->getAttributesObject[$i]['item'];
                     }
                 }
             }
@@ -323,9 +374,12 @@ class HomeController extends Controller
             $places = null;
         }
 
-        return view('monolit.pages.recently', [
-            'offers' => $places
-        ]);
+        return view(
+            'monolit.pages.recently',
+            [
+                'offers' => $places,
+            ]
+        );
     }
 
     public function realty()
@@ -333,9 +387,12 @@ class HomeController extends Controller
         $realtys = Realty::with('items')
             ->whereActive(1)->get();
 
-        return view('monolit.pages.realty', [
-            'realtys' => $realtys,
-            'text' => HomeText::findOrFail(2)
-        ]);
+        return view(
+            'monolit.pages.realty',
+            [
+                'realtys' => $realtys,
+                'text'    => HomeText::findOrFail(2),
+            ]
+        );
     }
 }

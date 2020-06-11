@@ -3,7 +3,9 @@
         <div class="col-12">
             <div class="filter-a">
                 <div class="form-group">
-                    <select class="form-control" name="city" id="city" data-tags="true" data-placeholder="-Город-">
+                    <select class="form-control" name="city" id="city" data-tags="true" data-placeholder="-Город-"
+                            data-allow-clear="true">
+                        <option></option>
                         @foreach($filterData['cities'] as $city)
                             <option value="{{$city}}">{{$city}}</option>
                         @endforeach
@@ -18,7 +20,8 @@
                 {{--                </div>--}}
                 <div class="form-group">
                     <select class="form-control size" name="estate_type" id="type" data-tags="true"
-                            data-placeholder="-Тип недвижимости-">
+                            data-placeholder="-Тип недвижимости-" data-allow-clear="true">
+                        <option></option>
                         @foreach($filterData['types'] as $type)
                             <option value="{{$type}}">{{$type}}</option>
                         @endforeach
@@ -38,7 +41,8 @@
                 </div>
                 <div class="form-group">
                     <select class="form-control room_quantity" name="room_quantity" data-tags="true"
-                            data-placeholder="-Комнаты-">
+                            data-placeholder="-Комнаты-" data-allow-clear="true">
+                        <option></option>
                         <option value="1" {{ request()->input('room_quantity') == 1 ? 'selected' : '' }}>1</option>
                         <option value="2" {{ request()->input('room_quantity')== 2 ? 'selected' : '' }}>2</option>
                         <option value="3" {{ request()->input('room_quantity') == 3 ? 'selected' : '' }}>3</option>
@@ -60,21 +64,26 @@
     <div id="advancedFields">
         <div class="form-group space">
             <select class="form-control" name="total_floor_space" id="space" data-tags="true"
-                    data-placeholder="-Общая площадь-">
+                    data-placeholder="-Общая площадь-" data-allow-clear="true">
+                <option></option>
                 @foreach($filterData['areas'] as $area)
                     <option value="{{$area}}">{{$area}}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group district">
-            <select class="form-control" name="district" id="district" data-tags="true" data-placeholder="-Район-">
+            <select class="form-control" name="district" id="district" data-tags="true" data-placeholder="-Район-"
+                    data-allow-clear="true">
+                <option></option>
                 @foreach($filterData['districts'] as $district)
                     <option value="{{$district}}">{{$district}}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group street">
-            <select class="form-control" name="street" id="street" data-tags="true" data-placeholder="-Улица-">
+            <select class="form-control" name="street" id="street" data-tags="true" data-placeholder="-Улица-"
+                    data-allow-clear="true">
+                <option></option>
                 @foreach($filterData['streets'] as $street)
                     <option value="{{$street}}">{{$street}}</option>
                 @endforeach

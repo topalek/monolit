@@ -2,7 +2,7 @@
 /public/hot
 /public/web/
 /public/web_i/
-/public/storage
+/storage
 /storage/*.key
 /vendor
 /.idea

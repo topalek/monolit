@@ -191,7 +191,7 @@ function initMap() {
 		},
 		zoom: 11,
 	});
-	
+
 	popup1 = new Popup(
 		new google.maps.LatLng(48.8544, 37.6003), //координаты попапа
 		document.getElementById('marker1'));
