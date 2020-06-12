@@ -3,6 +3,8 @@
  * Created by topalek
  * Date: 11.06.2020
  * Time: 15:22
+ *
+ * @var Illuminate\Database\Query\Builder $this ->builder
  */
 
 namespace App;
@@ -84,10 +86,10 @@ class FilterApartments
         $this->builder->where('street', 'like', "%$value%");
     }
 
-//    public function sort($value)
-//    {
-//        $this->builder->where('city','like', "%$value%");
-//    }
+    public function sort($sort)
+    {
+        $this->builder->orderBy('price', $sort);
+    }
 
     public function notFirst($value)
     {

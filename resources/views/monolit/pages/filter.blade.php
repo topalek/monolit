@@ -25,14 +25,22 @@
                     {{ ( request()->input('sale') == 0) ? 'Продажа' : 'Аренда' }}
                     @if(request()->input('room_quantity')){{ request()->input('room_quantity') }} комн.@endif
                     @if(request()->input('city'))в {{ request()->input('city') }}@endif
-                    @if(request()->input('price')[1])${{ request()->input('price')[0] < 10000 ? str_replace(',','', number_format(request()->input('price')[0])) : str_replace(',',' ', number_format(request()->input('price')[0])) }} — ${{ request()->input('price')[1] < 10000 ? str_replace(',','', number_format(request()->input('price')[1])) : str_replace(',',' ', number_format(request()->input('price')[1])) }}@endif
+                    @if(request()->input('price')[1])
+                        ${{ request()->input('price')[0] < 10000 ? str_replace(',','', number_format(request()->input('price')[0])) : str_replace(',',' ', number_format(request()->input('price')[0])) }}
+                        —
+                        ${{ request()->input('price')[1] < 10000 ? str_replace(',','', number_format(request()->input('price')[1])) : str_replace(',',' ', number_format(request()->input('price')[1])) }}@endif
                 </div>
             </div>
             <div class="col-12 col-view-toggle">
                 <span class="searched-th">Найдено {{ $offers->total() }} объекта</span>
-                <a id="gridView" href="#" class="searched-th @if( session()->get('view') == 'result-grid' || empty(session()->has('view')) ) active @endif" onclick="saveView('result-grid')"><i class="material-icons">view_module</i>Плиткой</a>
-                <a id="listView" href="#" class="searched-th @if( session()->get('view') == 'result-list' ) active @endif" onclick="saveView('result-list')"><i class="material-icons">list</i>Списком</a>
-                <div class="searched-th float-right" id="sort" style="cursor: pointer">
+                <a id="gridView" href="#"
+                   class="searched-th @if( session()->get('view') == 'result-grid' || empty(session()->has('view')) ) active @endif"
+                   onclick="saveView('result-grid')"><i class="material-icons">view_module</i>Плиткой</a>
+                <a id="listView" href="#"
+                   class="searched-th @if( session()->get('view') == 'result-list' ) active @endif"
+                   onclick="saveView('result-list')"><i class="material-icons">list</i>Списком</a>
+                <div class="searched-th float-right" id="sort"
+                     data-sort="{{(request()->input('sort') =='asc')?'desc':'asc'}}" style="cursor: pointer">
                     <!--
                         <span class="sort-icon asc"></span>
                         <span class="sort-icon desc"></span>
@@ -41,7 +49,8 @@
                 </div>
             </div>
         </div>
-        <div id="searchResults" class="@if(session()->has('view')) {{ session()->get('view') }} @else result-grid @endif">
+        <div id="searchResults"
+             class="@if(session()->has('view')) {{ session()->get('view') }} @else result-grid @endif">
             @foreach($offers as $offer)
                 <a href="{{ route('view.object', ['link' => $offer->object_code]) }}" class="result-item">
 
@@ -66,17 +75,19 @@
                             {{ $offer->total_floor_space }} м², этаж: {{ $offer->floor }}/{{ $offer->number_of_storeys }}
                         @else
                             Земельный участок {{ $offer->total_floor_space }} м²
-                        @endif
+                            @endif
                         </div>
-                        <div class="search-item-address">г. {{ $offer->city }} <br>{{ $offer->street }} @if($offer->estate_type != 'Дом') {{ $offer->house_no }} @endif</div>
+                        <div class="search-item-address">г. {{ $offer->city }}
+                            <br>{{ $offer->street }} @if($offer->estate_type != 'Дом') {{ $offer->house_no }} @endif
+                        </div>
                     </div>
                 </a>
             @endforeach
-        <!--//-->
+
         </div>
         <div class="row">
             <div class="col d-flex justify-content-center">
-                {{ $offers->appends(request()->input())->render() }}
+                <div class="pager">{{ $offers->appends(request()->input())->render() }}</div>
             </div>
         </div>
     </div>
@@ -98,22 +109,23 @@
             {{--}--}}
         {{--});--}}
     {{--}--}}
-    $(document).ready(function() {
-        $('html, body').animate({
-            scrollTop: $('#view').offset().top - 120
-        }, 0);
+        $(document).ready(function () {
+            $('html, body').animate({
+                scrollTop: $('#view').offset().top - 120
+            }, 0);
 
-        $('#sort').on('click', function () {
-            $('form').submit();
+            $('#sort').on('click', function () {
+                $('form').find('[name="sort"]').val($(this).data('sort'));
+                $('form').submit();
+            });
         });
-    });
 
-    function printDiv() {
-        var divToPrint=document.getElementById('searchResults');
-        var newWin=window.open('','Print-Window');
-        newWin.document.open();
-        newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
-        newWin.document.close();
+        function printDiv() {
+            var divToPrint = document.getElementById('searchResults');
+            var newWin = window.open('', 'Print-Window');
+            newWin.document.open();
+            newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+            newWin.document.close();
         setTimeout(function(){newWin.close();},10);
     }
 </script>
