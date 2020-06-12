@@ -4,41 +4,13 @@
  * Date: 11.06.2020
  * Time: 15:22
  *
- * @var Illuminate\Database\Query\Builder $this ->builder
  */
 
 namespace App;
 
 
-use Illuminate\Http\Request;
-
-class FilterApartments
+class FilterApartments extends QueryFilter
 {
-    protected $builder;
-    protected $request;
-
-    public function __construct($builder, Request $request)
-    {
-        $this->builder = $builder;
-        $this->request = $request;
-    }
-
-    public function apply()
-    {
-        foreach ($this->filters() as $filter => $value) {
-            if (method_exists($this, $filter)) {
-                if ($value) {
-                    $this->$filter($value);
-                }
-            }
-        }
-        return $this->builder;
-    }
-
-    public function filters()
-    {
-        return $this->request->all();
-    }
 
     public function city($value)
     {

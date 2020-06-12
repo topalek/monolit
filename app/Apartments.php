@@ -45,9 +45,11 @@ class Apartments extends Model
             ->first();
 
     }
-    public function previous() {
+
+    public function previous()
+    {
         return Apartments::where('object_code', '<', $this->object_code)
-            ->orderBy('object_code','desc')
+            ->orderBy('object_code', 'desc')
             ->first();
     }
 
@@ -55,4 +57,11 @@ class Apartments extends Model
     {
         return $this->provideFilter(ModelFilters\ApartmentsFilter::class);
     }
+
+    public function scopeFilter($query, $filter)
+    {
+        return $filter->apply($query);
+    }
+
+
 }

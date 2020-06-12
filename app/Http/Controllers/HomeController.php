@@ -308,11 +308,9 @@ class HomeController extends Controller
             );
     }
 
-    public function filter(Request $request)
+    public function filter(Request $request, FilterApartments $filters)
     {
-        $apartments = Apartments::query();
-
-        $apartments = (new FilterApartments($apartments, $request))->apply()->paginate(12);
+        $apartments = Apartments::query()->filter($filters)->paginate(12);
 
         return view(
             'monolit.pages.filter',
