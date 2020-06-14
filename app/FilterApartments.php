@@ -19,15 +19,19 @@ class FilterApartments extends QueryFilter
 
     public function type($value)
     {
-        $this->builder->where('estate_type', $value);
+        $this->builder->where('estate_type', 'like', "%$value%");
     }
 
     public function rooms($value)
     {
-        $this->builder->where('room_quantity', $value);
-        if ($value == '4+') {
-            $this->builder->where('room_quantity', '>=', 4);
-        }
+        $this->builder->where(
+            function ($q) use ($value) {
+                $q->whereIn('room_quantity', $value);
+                if (in_array('4+', $value)) {
+                    $q->orWhere('room_quantity', '>=', 4);
+                }
+            }
+        );
     }
 
     public function price($value)

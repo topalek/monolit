@@ -1,24 +1,28 @@
 $('#advancedBtn').click(function (e) {
 	e.preventDefault();
 	$(this).unbind('mouseout');
-	// $(this).prop("disabled", true);
+	$('#search').toggleClass('extended-search');
 	$('#advancedFields').slideToggle({
-		duration: 200,
-		start: function () {
-			$(this).css({
-				display: "grid"
-			})
-		},
-		done: function() {
-			$('#Search').toggleClass('extended-search');
-			$.each($('#advancedFields select, #advancedFields input'), function(i, v) {
-				$(v).val('');
-			});
-			$.each($('#advancedFields input[type=checkbox]'), function(i, v) {
-				$(v).prop('checked', false);
-			});
-		}
+		duration: 300,
 	});
+	// $(this).prop("disabled", true);
+	// $('#advancedFields').slideToggle({
+	// 	duration: 200,
+	// 	start: function () {
+	// 		$(this).css({
+	// 			display: "grid"
+	// 		})
+	// 	},
+	// 	done: function() {
+	//
+	// 		$.each($('#advancedFields select, #advancedFields input'), function(i, v) {
+	// 			$(v).val('');
+	// 		});
+	// 		$.each($('#advancedFields input[type=checkbox]'), function(i, v) {
+	// 			$(v).prop('checked', false);
+	// 		});
+	// 	}
+	// });
 
 });
 

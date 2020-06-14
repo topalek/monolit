@@ -38,7 +38,7 @@
 	}
 	.mt-head {
 		margin-top: 25px;
-		height: 645px;
+		min-height: 645px;
 	}
 }
 

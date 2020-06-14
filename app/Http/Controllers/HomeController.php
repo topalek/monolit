@@ -311,6 +311,7 @@ class HomeController extends Controller
     public function filter(Request $request, FilterApartments $filters)
     {
         $apartments = Apartments::query()->filter($filters)->paginate(12);
+//        dd(Apartments::query()->filter($filters)->toSql());
 
         return view(
             'monolit.pages.filter',
