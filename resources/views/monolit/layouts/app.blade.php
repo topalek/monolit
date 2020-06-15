@@ -38,10 +38,13 @@
     <!-- End Google Tag Manager -->
 </head>
 
-<body>
+<body class="{{(config('detect')->isIos())? 'ios':''}}">
+
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRLL6QC"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRLL6QC"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 <!-- top bar -->
 <div class="top-bar fixed-top d-none d-md-block">

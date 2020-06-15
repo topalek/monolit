@@ -1,4 +1,4 @@
-<form id="search" class="" action="{{url('filter')}}">
+<form id="search" class="{{(config('detect')->isIos())? 'ios':'search'}}" action="{{url('filter')}}">
     <div class="row">
         <div class="col-12">
             <div class="filter-a">

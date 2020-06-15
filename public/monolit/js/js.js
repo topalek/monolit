@@ -299,7 +299,7 @@ function definePopupClass() {
 }
 
 $(document).ready(function () {
-	$('#search select.form-control').each((i, el) => {
-		$(el).select2();
-	});
+    $('.search select.form-control').each((i, el) => {
+        $(el).select2();
+    });
 });
