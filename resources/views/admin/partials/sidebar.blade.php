@@ -32,53 +32,41 @@
 
 
             @endif
-                <li>
-                    <a href="{{ url('/admin/blocks/1/edit') }}">
-                        <i class="fa fa-database"></i>
-                        <span class="title">Blocks</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{url('/admin/realty')}}">
-                        <i class="fa fa-home"></i>
-                        <span class="title">Realty blocks</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('/admin/hometext/2/edit') }}">
-                        <i class="fa fa-database"></i>
-                        <span class="title">Realty SEO text</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{url('admin/metatags')}}">
-                        <i class="fa fa-bullhorn"></i>
-                        <span class="title">Meta tags</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('/admin/hometext/1/edit') }}">
-                        <i class="fa fa-database"></i>
-                        <span class="title">Advantage section</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('/admin/company/1/edit') }}">
-                        <i class="fa fa-file"></i>
-                        <span class="title">About company</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('/admin/presentation/1/edit') }}">
-                        <i class="fa fa-file"></i>
-                        <span class="title">Presentation</span>
-                    </a>
-                </li>
+            <li class="{{ (request()->segment(2) =='blocks') ? 'active' : '' }}">
+                <a href="{{ url('/admin/blocks/1/edit') }}">
+                    <i class="fa fa-database"></i>
+                    <span class="title">Блоки на главной</span>
+                </a>
+            </li>
+            <li class="{{ (request()->is('admin/hometext/2/edit')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/hometext/2/edit') }}">
+                    <i class="fa fa-database"></i>
+                    <span class="title">Realty SEO text</span>
+                </a>
+            </li>
+            <li class="{{ (request()->is('admin/hometext/1/edit')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/hometext/1/edit') }}">
+                    <i class="fa fa-database"></i>
+                    <span class="title">Преимущества</span>
+                </a>
+            </li>
+            <li class="{{ (request()->segment(2) =='company') ? 'active' : '' }}">
+                <a href="{{ url('/admin/company/1/edit') }}">
+                    <i class="fa fa-file"></i>
+                    <span class="title">О компании</span>
+                </a>
+            </li>
+            <li class="{{ (request()->segment(2) =='presentation') ? 'active' : '' }}">
+                <a href="{{ url('/admin/presentation/1/edit') }}">
+                    <i class="fa fa-file"></i>
+                    <span class="title">Presentation</span>
+                </a>
+            </li>
             @foreach($menus as $menu)
                 @if($menu->menu_type != 2 && is_null($menu->parent_id))
                     @if(Auth::user()->role->canAccessMenu($menu))
                         {{--<li @if(isset(explode('/',Request::path())[1]) && explode('/',Request::path())[1] == strtolower($menu->name)) class="active" @endif>--}}
-                            {{--<a href="{{ route(config('quickadmin.route').'.'.strtolower($menu->name).'.index') }}">--}}
+                        {{--<a href="{{ route(config('quickadmin.route').'.'.strtolower($menu->name).'.index') }}">--}}
                                 {{--<i class="fa {{ $menu->icon }}"></i>--}}
                                 {{--<span class="title">{{ $menu->title }}</span>--}}
                             {{--</a>--}}
