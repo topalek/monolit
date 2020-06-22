@@ -5,14 +5,19 @@
                 <div class="form-group city">
                     <select class="form-control" name="city" id="city" data-tags="true" data-placeholder="-Город-"
                             data-allow-clear="true">
-                        <option></option>
-                        @foreach($filterData['cities'] as $city)
-                            <option value="{{$city}}"{{ ( request()->input('city') == $city) ? 'selected' : '' }}>{{$city}}</option>
-                        @endforeach
+                        <option>-Город-</option>
+                        {{--                        @foreach($filterData['cities'] as $city)--}}
+                        <option value="Славянск"{{ ( request()->input('city') == "Славянск") ? 'selected' : '' }}>
+                            Славянск
+                        </option>
+                        <option value="Краматорск"{{ ( request()->input('city') == "Краматорск") ? 'selected' : '' }}>
+                            Краматорск
+                        </option>
+                        {{--                        @endforeach--}}
                     </select>
                 </div>
                 <div class="form-group type">
-                    <select class="form-control size" name="type" id="type" data-tags="true"
+                    <select class="form-control select-2 size" name="type" id="type" data-tags="true"
                             data-placeholder="-Тип недвижимости-" data-allow-clear="true">
                         <option></option>
                         @foreach($filterData['types'] as $type)
@@ -45,7 +50,7 @@
     <div id="advancedFields">
         <div class="wrapper">
             <div class="form-group space">
-                <select class="form-control" name="area" id="space" data-tags="true"
+                <select class="form-control select-2" name="area" id="space" data-tags="true"
                         data-placeholder="-Общая площадь-" data-allow-clear="true">
                     <option></option>
                     @foreach($filterData['areas'] as $area)
@@ -54,7 +59,8 @@
                 </select>
             </div>
             <div class="form-group district">
-                <select class="form-control" name="district" id="district" data-tags="true" data-placeholder="-Район-"
+                <select class="form-control select-2" name="district" id="district" data-tags="true"
+                        data-placeholder="-Район-"
                         data-allow-clear="true">
                     <option></option>
                     @foreach($filterData['districts'] as $district)
@@ -63,7 +69,8 @@
                 </select>
             </div>
             <div class="form-group street">
-                <select class="form-control" name="street" id="street" data-tags="true" data-placeholder="-Улица-"
+                <select class="form-control select-2" name="street" id="street" data-tags="true"
+                        data-placeholder="-Улица-"
                         data-allow-clear="true">
                     <option></option>
                     @foreach($filterData['streets'] as $street)
