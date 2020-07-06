@@ -302,4 +302,5 @@ $(document).ready(function () {
     $('.search select.select-2').each((i, el) => {
 		$(el).select2();
 	});
+	$('.rooms select').select2();
 });

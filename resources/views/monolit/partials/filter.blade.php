@@ -19,7 +19,7 @@
                 <div class="form-group type">
                     <select class="form-control select-2 size" name="type" id="type" data-tags="true"
                             data-placeholder="-Тип недвижимости-" data-allow-clear="true">
-                        <option></option>
+                        <option>-Тип недвижимости-</option>
                         @foreach($filterData['types'] as $type)
                             <option value="{{$type}}" {{ ( request()->input('type') == $type) ? 'selected' : '' }}>{{$type}}</option>
                         @endforeach

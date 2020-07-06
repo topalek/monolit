@@ -15,7 +15,7 @@
             @endif
         </div>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-12 col-lg-10">
         {!! Form::model($blocks, array('files' => true, 'class' => 'form', 'id' => 'form-with-validation', 'method' => 'PATCH', 'route' => array(config('quickadmin.route').'.blocks.update', $blocks->id))) !!}
         <div class="jumbotron">
             <div class="row">
@@ -41,7 +41,8 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::label('image_1', 'Image') !!}
-                        <img src="{{ asset('uploads/'.$blocks->image_1) }}" alt="{{$blocks->image_1}}">
+                        <img class="img-responsive" src="{{ asset('uploads/'.$blocks->image_1) }}"
+                             alt="{{$blocks->image_1}}">
                         {!! Form::file('image_1') !!}
                         {!! Form::hidden('image_1_w', 4096) !!}
                         {!! Form::hidden('image_1_h', 4096) !!}

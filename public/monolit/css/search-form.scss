@@ -21,6 +21,10 @@
 
   .form-group {
     margin-bottom: 0;
+
+    .form-control {
+      @include input-font;
+    }
   }
 }
 
@@ -32,7 +36,7 @@
 }
 
 select.form-control:not([size]):not([multiple]) {
-  height: auto;
+  height: 100%;
 }
 
 form#search {
@@ -46,6 +50,9 @@ form#search {
 
     &--default {
       .select2-search {
+        display: flex;
+        align-items: center;
+
         &--dropdown {
           .select2-search__field {
             border: none !important;
@@ -79,9 +86,8 @@ form#search {
           height: 100%;
           padding: 10px;
           border: none;
-          -webkit-border-radius: 0;
-          -moz-border-radius: 0;
           border-radius: 0;
+          align-items: center;
 
           .select2-selection__arrow {
             top: 50%;
@@ -92,6 +98,10 @@ form#search {
             .select2-selection__placeholder {
               @include input-font;
             }
+          }
+
+          .select2-selection__clear {
+            margin-right: 0;
           }
         }
 

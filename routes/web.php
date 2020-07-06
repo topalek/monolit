@@ -67,11 +67,14 @@ Route::get('/save-view/{view}', 'HomeController@saveView')->name('save.view');
 Route::get('/district/{city}', 'HomeController@district')->name('district');
 Route::get('/test/email', 'OrderController@testEmail');
 Route::get('/realty', 'HomeController@realty');
-Route::get('/laravel-filemanager', '\Unisharp\Laravelfilemanager\controllers\LfmController@show');
-Route::post('/laravel-filemanager/upload', '\Unisharp\Laravelfilemanager\controllers\UploadController@upload')->name('unisharp.lfm.upload');
-Route::get('/contacts', function(){
-    return view('monolit.pages.contacts');
-});
+//Route::get('/laravel-filemanager', '\Unisharp\Laravelfilemanager\controllers\LfmController@show');
+//Route::post('/laravel-filemanager/upload', '\Unisharp\Laravelfilemanager\controllers\UploadController@upload')->name('unisharp.lfm.upload');
+Route::get(
+    '/contacts',
+    function () {
+        return view('monolit.pages.contacts');
+    }
+);
 Route::post('/contacts', 'OrderController@contacts')->name('contacts');
 Auth::routes();
 
